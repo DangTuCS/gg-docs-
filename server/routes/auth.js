@@ -9,15 +9,14 @@ authRouter.post('/api/signup', async (req, res) => {
 
         // email already exists?
         let user = await User.findOne({
-            // find one: find the first one
-            email: email,
+            email
         });
 
         if (!user) {
             user = new User({
-                email: email,
-                name: name,
-                profilePic: profilePic,
+                email,
+                name,
+                profilePic,
             });
             user = await user.save();
         }

@@ -1,34 +1,29 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gg_docs/constants.dart';
 import 'package:gg_docs/models/error_model.dart';
 import 'package:gg_docs/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart';
 
 final authRepositoryProvider = Provider(
-  (ref) {
-    var dio = Dio();
-    dio.options.headers['content-Type'] =
-    'application/json ; charset=UTF-8';
-    return AuthRepository(
-      googleSignIn: GoogleSignIn(),
-      dio: dio,
-    );
-  }
+  (ref) => AuthRepository(
+    googleSignIn: GoogleSignIn(),
+    client: Client(),
+  ),
 );
 
 final userProvider = StateProvider<User?>((_) => null);
 
 class AuthRepository {
   final GoogleSignIn _googleSignIn;
-  final Dio _dio;
+  final Client _client;
 
   const AuthRepository({
     required GoogleSignIn googleSignIn,
-    required Dio dio,
+    required Client client,
   })  : _googleSignIn = googleSignIn,
-        _dio = dio;
+        _client = client;
 
   Future<ErrorModel> signInWithGoogle() async {
     ErrorModel error =
@@ -43,15 +38,26 @@ class AuthRepository {
           uid: '',
           token: '',
         );
-        var res = await _dio.post(
-          '$host/api/signup',
-          data: userAcc.toJson(),
+
+        print(userAcc.toJson());
+
+        var res = await _client.post(
+          Uri.parse('$host/api/signup'),
+          body: json.encode(userAcc.toJson()),
+          headers: {
+            "Access-Control-Allow-Methods": "GET, HEAD",
+            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': '*/*'
+          },
         );
+
+        print(res);
 
         switch (res.statusCode) {
           case 200:
             final newUser =
-                userAcc.copyWith(uid: jsonDecode(res.data)['user']['_id']);
+                userAcc.copyWith(uid: jsonDecode(res.body)['user']['_id']);
             error = ErrorModel(
               error: null,
               data: newUser,
