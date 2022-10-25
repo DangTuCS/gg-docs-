@@ -33,6 +33,7 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print("build login");
     return Scaffold(
       body: Center(
         child: ElevatedButton.icon(
