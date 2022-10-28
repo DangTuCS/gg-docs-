@@ -22,7 +22,7 @@ DocumentModel _$DocumentModelFromJson(Map<String, dynamic> json) {
 mixin _$DocumentModel {
   String get title => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
+  List<dynamic> get content => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
@@ -41,7 +41,7 @@ abstract class $DocumentModelCopyWith<$Res> {
   $Res call(
       {String title,
       String uid,
-      String content,
+      List<dynamic> content,
       DateTime createdAt,
       String id});
 }
@@ -77,7 +77,7 @@ class _$DocumentModelCopyWithImpl<$Res, $Val extends DocumentModel>
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<dynamic>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -101,7 +101,7 @@ abstract class _$$_DocumentModelCopyWith<$Res>
   $Res call(
       {String title,
       String uid,
-      String content,
+      List<dynamic> content,
       DateTime createdAt,
       String id});
 }
@@ -133,9 +133,9 @@ class __$$_DocumentModelCopyWithImpl<$Res>
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
       content: null == content
-          ? _value.content
+          ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<dynamic>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -154,9 +154,10 @@ class _$_DocumentModel implements _DocumentModel {
   const _$_DocumentModel(
       {required this.title,
       required this.uid,
-      required this.content,
+      required final List<dynamic> content,
       required this.createdAt,
-      required this.id});
+      required this.id})
+      : _content = content;
 
   factory _$_DocumentModel.fromJson(Map<String, dynamic> json) =>
       _$$_DocumentModelFromJson(json);
@@ -165,8 +166,13 @@ class _$_DocumentModel implements _DocumentModel {
   final String title;
   @override
   final String uid;
+  final List<dynamic> _content;
   @override
-  final String content;
+  List<dynamic> get content {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_content);
+  }
+
   @override
   final DateTime createdAt;
   @override
@@ -184,7 +190,7 @@ class _$_DocumentModel implements _DocumentModel {
             other is _$_DocumentModel &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality().equals(other._content, _content) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.id, id) || other.id == id));
@@ -192,8 +198,8 @@ class _$_DocumentModel implements _DocumentModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, title, uid, content, createdAt, id);
+  int get hashCode => Object.hash(runtimeType, title, uid,
+      const DeepCollectionEquality().hash(_content), createdAt, id);
 
   @JsonKey(ignore: true)
   @override
@@ -213,7 +219,7 @@ abstract class _DocumentModel implements DocumentModel {
   const factory _DocumentModel(
       {required final String title,
       required final String uid,
-      required final String content,
+      required final List<dynamic> content,
       required final DateTime createdAt,
       required final String id}) = _$_DocumentModel;
 
@@ -225,7 +231,7 @@ abstract class _DocumentModel implements DocumentModel {
   @override
   String get uid;
   @override
-  String get content;
+  List<dynamic> get content;
   @override
   DateTime get createdAt;
   @override

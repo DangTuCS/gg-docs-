@@ -8,7 +8,7 @@ class DocumentModel with _$DocumentModel {
   const factory DocumentModel({
     required String title,
     required String uid,
-    required String content,
+    required List content,
     required DateTime createdAt,
     required String id,
   }) = _DocumentModel;

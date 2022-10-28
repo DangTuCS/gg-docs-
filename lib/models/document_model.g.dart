@@ -10,9 +10,9 @@ _$_DocumentModel _$$_DocumentModelFromJson(Map<String, dynamic> json) =>
     _$_DocumentModel(
       title: json['title'] as String,
       uid: json['uid'] as String,
-      content: json['content'] as String,
+      content:List.from(json['content']),
       createdAt: DateTime.fromMillisecondsSinceEpoch(json['createdAt']),
-      id: json['id'] as String,
+      id: json['_id'] as String,
     );
 
 Map<String, dynamic> _$$_DocumentModelToJson(_$_DocumentModel instance) =>
@@ -20,6 +20,6 @@ Map<String, dynamic> _$$_DocumentModelToJson(_$_DocumentModel instance) =>
       'title': instance.title,
       'uid': instance.uid,
       'content': instance.content,
-      'createdAt': instance.createdAt.millisecondsSinceEpoch,
+      'createdAt': instance.createdAt.toIso8601String(),
       'id': instance.id,
     };

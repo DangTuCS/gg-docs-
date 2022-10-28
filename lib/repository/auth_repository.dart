@@ -84,14 +84,12 @@ class AuthRepository {
 
     try {
       String? token = await _localStorageRepository.getToken();
-      print("token: $token");
       if (token != null) {
         _dio.options.headers = {
           'Content-type': 'application/json; charset=UTF-8',
           'x-auth-token': token,
         };
         var res = await _dio.get('$host/');
-
         switch (res.statusCode) {
           case 200:
             final userAcc =
@@ -114,7 +112,7 @@ class AuthRepository {
   }
 
   void signOut() async {
-    _googleSignIn.signOut();
+    await _googleSignIn.signOut();
     _localStorageRepository.setToken('');
   }
 }
